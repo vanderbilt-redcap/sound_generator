@@ -70,6 +70,11 @@ public class SwiftSoundGeneratorPlugin: NSObject, FlutterPlugin {
         self.oscillator.frequency = args["frequency"] as! Double
         result(nil);
         break;
+      case "setAmplitude":
+        let args = call.arguments as! [String: Any]
+        self.oscillator.amplitude = args["amplitude"] as! Double
+        result(nil);
+        break;
       case "setWaveform":
         result(nil);
         break;
@@ -84,6 +89,9 @@ public class SwiftSoundGeneratorPlugin: NSObject, FlutterPlugin {
         break;
       case "getSampleRate":
         result(self.sampleRate);
+        break;
+      case "getAmplitude":
+        result(self.oscillator.amplitude);
         break;
       case "refreshOneCycleData":
         result(nil);

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/services.dart';
 import 'package:sound_generator/waveTypes.dart';
@@ -78,6 +79,11 @@ class SoundGenerator {
     return sampleRate;
   }
 
+  static Future<Float> get getAmplitude async {
+    final Float amplitude = await _channel.invokeMethod('getAmplitude');
+    return amplitude;
+  }
+
   /// Set AutoUpdateOneCycleSample
   static void setAutoUpdateOneCycleSample(bool autoUpdateOneCycleSample) async {
     await _channel.invokeMethod(
@@ -90,6 +96,11 @@ class SoundGenerator {
   static void setFrequency(double frequency) async {
     await _channel.invokeMethod(
         "setFrequency", <String, dynamic>{"frequency": frequency});
+  }
+
+  static void setAmplitude(double amplitude) async {
+    await _channel.invokeMethod(
+        "setAmplitude", <String, dynamic>{"amplitude": amplitude});
   }
 
   /// Set Balance Range from -1 to 1

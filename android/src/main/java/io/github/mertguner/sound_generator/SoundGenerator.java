@@ -36,10 +36,23 @@ public class SoundGenerator {
         return 0;
     }
 
+    public float getAmplitude(){
+        if (generator != null)
+            return generator.getAmplitude();
+        return 0;
+    }
+
     public void setSampleRate(int sampleRate) {
         if (generator != null)
             generator.setSampleRate(sampleRate);
     }
+
+    public void setAmplitude(float amplitude) {
+        if (generator != null)
+            generator.setAmplitude(amplitude);
+    }
+
+
 
     public void refreshOneCycleData() {
         if (generator != null)

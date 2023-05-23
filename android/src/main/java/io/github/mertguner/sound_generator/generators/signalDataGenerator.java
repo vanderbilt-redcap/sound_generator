@@ -25,6 +25,7 @@ public class signalDataGenerator {
     private float oldFrequency = 50;
     private boolean creatingNewData = false;
     private boolean autoUpdateOneCycleSample = false;
+    private float amplitude = 1.0f;
 
     public boolean isAutoUpdateOneCycleSample() { return autoUpdateOneCycleSample; }
     public void setAutoUpdateOneCycleSample(boolean autoUpdateOneCycleSample) { this.autoUpdateOneCycleSample = autoUpdateOneCycleSample; }
@@ -34,6 +35,14 @@ public class signalDataGenerator {
         this.sampleRate = sampleRate;
         phCoefficient = _2Pi / (float) sampleRate;
         smoothStep = 1f / (float) sampleRate * 20f;
+    }
+    public float getAmplitude() {
+        return amplitude;
+    }
+
+    public void setAmplitude(float amplitude) {
+        this.amplitude = amplitude;
+        updateData();
     }
 
     public baseGenerator getGenerator() {
@@ -65,7 +74,8 @@ public class signalDataGenerator {
         creatingNewData = true;
         for (int i = 0; i < bufferSamplesSize; i++) {
             oldFrequency += ((frequency - oldFrequency) * smoothStep);
-            backgroundBuffer[i] = generator.getValue(ph, _2Pi);
+            float value = generator.getValue(ph, _2Pi);
+            backgroundBuffer[i] = (short) (amplitude * value);
             ph += (oldFrequency * phCoefficient);
 
             //performance of this block is higher than ph %= _2Pi;
@@ -103,7 +113,8 @@ public class signalDataGenerator {
 
         oneCycleBuffer.clear();
         for (int i = 0; i < size; i++) {
-            oneCycleBuffer.add((int)generator.getValue((frequency * phCoefficient) * (float) i, _2Pi));
+            float value = generator.getValue((frequency * phCoefficient) * (float) i, _2Pi);
+            oneCycleBuffer.add((int) (amplitude * value));
         }
         oneCycleBuffer.add((int)generator.getValue(0, _2Pi));
         getOneCycleDataHandler.setData(oneCycleBuffer);
