@@ -4,7 +4,8 @@ version '1.0'
 buildscript {
     repositories {
         google()
-        jcenter()
+        // ✅ jcenter is deprecated; mavenCentral is the safer option
+        mavenCentral()
     }
 
     dependencies {
@@ -15,18 +16,22 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
+    // ✅ Required for AGP 7.0+ and good practice even before
+    namespace 'io.github.mertguner.sound_generator'
+
     compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
     }
+
     lintOptions {
         disable 'InvalidPackage'
     }
